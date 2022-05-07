@@ -5,14 +5,27 @@ import { Store } from "../stateManagement/StoreProvider";
 const CategoryForm = () => {
   const formRefCategory = useRef(null);
 
-  const onAddCategory = (event) => {
+  const onAddCategory = async (event) => {
     event.preventDefault();
     if (title) {
+      let categoryFromForm = {
+        title,
+      }
+
+      let categorySavedPromise = await fetch(`http://localhost:8081/api/v1/save/category`,{
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(categoryFromForm)
+      });
+
+      let categorySavedNullTasks = await categorySavedPromise.json();
+      let categorySaved = { ...categorySavedNullTasks, tasks: [] }
+
       dispatch({
         type: "add-category",
-        payload: {
-          title
-        },
+        payload: categorySaved
       });
       formRefCategory.current.reset();
       setTitle("");

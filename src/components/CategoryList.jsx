@@ -7,23 +7,20 @@ const CategoryList = () => {
   const { state, dispatch } = useContext(Store);
 
   useEffect(() => {
-    let listOfCategory = fetchAllCategories().then(
-      categories => {
-        let action = {
-          type: "get-categories",
-          payload: categories
-        }
-
-        dispatch(action)
-      }
-    )
+    let listOfCategories = fetchAllCategories().then((categories) => {
+      let action = {
+        type: "get-categories",
+        payload: categories,
+      };
+      dispatch(action);
+    });
   }, []);
 
   const fetchAllCategories = async () => {
     let response = await fetch(`http://localhost:8081/api/v1`);
     let data = await response.json();
     return data;
-  }
+  };
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalClose, setModalClose] = useState(true);
@@ -83,89 +80,85 @@ const CategoryList = () => {
     <div>
       {state.listOfCategories.map((actualCategory) => {
         return (
-          <Container>
-            <Card key={actualCategory.id}>
-              <Card.Header>
-                {actualCategory.title}
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => onDeleteCategory(actualCategory)}
-                >
-                  Delete
-                </Button>
-              </Card.Header>
-              <Card.Body>
-                <TaskForm catId={actualCategory.id} />
-                <Table size="sm" striped bordered hover responsive>
-                  <thead>
-                    <tr>
-                      <th style={{ textAlign: "center" }}>Id</th>
-                      <th style={{ textAlign: "center" }}>Task</th>
-                      <th style={{ textAlign: "center" }}>Done</th>
-                      <th colSpan={2}></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {actualCategory.tasks.map((actualTask) => {
-                      return (
-                        <tr key={actualTask.id}>
-                          <td
-                            style={
-                              actualTask.done
-                                ? {
-                                    textDecoration: "line-through",
-                                    textAlign: "center",
-                                  }
-                                : { textAlign: "center" }
-                            }
+          <Card key={actualCategory.id}>
+            <Card.Header>
+              {actualCategory.title}
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={() => onDeleteCategory(actualCategory)}
+              >
+                Delete
+              </Button>
+            </Card.Header>
+            <Card.Body>
+              <TaskForm catId={actualCategory.id} />
+              <Table size="sm" striped bordered hover responsive>
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: "center" }}>Id</th>
+                    <th style={{ textAlign: "center" }}>Task</th>
+                    <th style={{ textAlign: "center" }}>Done</th>
+                    <th colSpan={2}></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {actualCategory.tasks.map((actualTask) => {
+                    return (
+                      <tr key={actualTask.id}>
+                        <td
+                          style={
+                            actualTask.done
+                              ? {
+                                  textDecoration: "line-through",
+                                  textAlign: "center",
+                                }
+                              : { textAlign: "center" }
+                          }
+                        >
+                          {actualTask.id}
+                        </td>
+                        <td
+                          style={
+                            actualTask.done
+                              ? { textDecoration: "line-through" }
+                              : {}
+                          }
+                        >
+                          {actualTask.message}
+                        </td>
+                        <td style={{ textAlign: "center" }}>
+                          <input
+                            onChange={(event) => onCheckbox(event, actualTask)}
+                            type="checkbox"
+                          />
+                        </td>
+                        <td style={{ textAlign: "center" }}>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => onDeleteTask(actualTask)}
                           >
-                            {actualTask.id}
-                          </td>
-                          <td
-                            style={
-                              actualTask.done
-                                ? { textDecoration: "line-through" }
-                                : {}
-                            }
+                            Delete
+                          </Button>
+                        </td>
+                        <td style={{ textAlign: "center" }}>
+                          <Button
+                            key={actualTask.id}
+                            size="sm"
+                            onClick={(event) => openModal(event, actualTask)}
+                            disabled={actualTask.done}
                           >
-                            {actualTask.message}
-                          </td>
-                          <td style={{ textAlign: "center" }}>
-                            <input
-                              onChange={(event) =>
-                                onCheckbox(event, actualTask)
-                              }
-                              type="checkbox"
-                            />
-                          </td>
-                          <td style={{ textAlign: "center" }}>
-                            <Button
-                              variant="danger"
-                              size="sm"
-                              onClick={() => onDeleteTask(actualTask)}
-                            >
-                              Delete
-                            </Button>
-                          </td>
-                          <td style={{ textAlign: "center" }}>
-                            <Button
-                              key={actualTask.id}
-                              size="sm"
-                              onClick={(event) => openModal(event, actualTask)}
-                              disabled={actualTask.done}
-                            >
-                              Edit
-                            </Button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
-              </Card.Body>
-            </Card>
-          </Container>
+                            Edit
+                          </Button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
         );
       })}
       <Modal show={modalOpen} onHide={modalClose}>

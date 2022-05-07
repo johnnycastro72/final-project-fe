@@ -13,33 +13,7 @@ const initialState = {
     title: ""
   },
   listOfCategories: []
-/*   [
-    {
-      id: 1,
-      title: "First Category",
-      tasks: [
-        {
-          id: 2,
-          message: "First task on first category",
-          done: false,
-          categoryId: 1,
-        },
-      ],
-    },
-    {
-      id: 3,
-      title: "Second Category",
-      tasks: [
-        {
-          id: 4,
-          message: "First task on second category",
-          done: false,
-          categoryId: 3,
-        },
-      ],
-    },
-  ],
- */};
+};
 
 const Store = createContext(initialState);
 

@@ -4,11 +4,7 @@ function reducer(state, action) {
       const newStateGetAllCategories = {...state, listOfCategories: action.payload };
       return newStateGetAllCategories;
     case "add-category":
-      const newCategory = {
-        id: Math.floor(Math.random() * 100),
-        title: action.payload.title,
-        tasks: [],
-      };
+      const newCategory = action.payload;
       const newListOfCategoriesAddedCategory = [
         ...state.listOfCategories,
         newCategory,
