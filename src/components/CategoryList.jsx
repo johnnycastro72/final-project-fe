@@ -6,8 +6,14 @@ import TaskForm from "./TaskForm";
 const CategoryList = () => {
   const { state, dispatch } = useContext(Store);
 
-  const onCheck = (e) => {
-    console.log(e);
+  const onCheckbox = (event, task) => {
+    const checked = event.currentTarget.checked;
+    console.log(checked);
+    dispatch({
+      type: "update-done",
+      payload: {...task, 
+      done: checked}
+    })
   };
   console.log(state);
   return (
@@ -36,9 +42,8 @@ const CategoryList = () => {
                         <td style={tas.done?{textDecoration: 'line-through'}:{}}>{tas.message}</td>
                         <td>
                           <input
-                            onChange={onCheck}
+                            onChange={(event) => onCheckbox(event, tas)}
                             type="checkbox"
-                            checked={tas.done}
                           />
                         </td>
                         <td>

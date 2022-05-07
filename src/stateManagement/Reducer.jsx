@@ -5,6 +5,19 @@ function reducer(state, action) {
         ...state,
         tasks: action.payload,
       };
+      return state;
+    case "update-done":
+      const newListofCategories = state.listOfCategories.map((cat) => {
+        cat.tasks.map((task) => {
+          if (task.id == action.payload.id) {
+            task.done = action.payload.done;
+          }
+          return task;
+        });
+        return cat;
+      });
+      const newStateModifiedCheckbox = {...state, listOfCategories: newListofCategories}
+      return newStateModifiedCheckbox;
   }
 }
 
