@@ -15,6 +15,7 @@ const CategoryForm = () => {
         },
       });
       formRefCategory.current.reset();
+      setTitle("");
     }
   };
 

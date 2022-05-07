@@ -16,6 +16,7 @@ const TaskForm = ({ catId }) => {
         },
       });
       formRefTask.current.reset();
+      setMessage("")
     }
   };
 
