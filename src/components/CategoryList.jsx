@@ -15,6 +15,14 @@ const CategoryList = () => {
       done: checked}
     })
   };
+
+  const onDeleteTask = (task) => {
+    dispatch({
+      type: "remove-task",
+      payload: task
+    })
+  }
+
   console.log(state);
   return (
     <div>
@@ -47,7 +55,7 @@ const CategoryList = () => {
                           />
                         </td>
                         <td>
-                          <Button>Delete</Button>
+                          <Button onClick={() => onDeleteTask(tas)}>Delete</Button>
                         </td>
                         <td>
                           <Button>Edit</Button>

@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { Store } from "../stateManagement/StoreProvider";
 
 const TaskForm = ({catId}) => {
-  const formTask = useRef(null);
+  const formRefTask = useRef(null);
 
   const onAdd = (event) => {
     event.preventDefault();
@@ -15,6 +15,7 @@ const TaskForm = ({catId}) => {
           categoryId: catId
         }
       })
+      formRefTask.current.reset();
     }
   };
 
@@ -27,7 +28,7 @@ const TaskForm = ({catId}) => {
   };
 
   return (
-    <Form ref={formTask}>
+    <Form ref={formRefTask}>
       <Form.Group className="mb-3" controlId="formTaskMessage">
         <Form.Label>Task</Form.Label>
         <Form.Control

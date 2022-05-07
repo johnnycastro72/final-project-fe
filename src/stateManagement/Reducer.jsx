@@ -1,11 +1,6 @@
 function reducer(state, action) {
   switch (action.type) {
     case "get-categories":
-      const stateWithAllCategories = {
-        ...state,
-        tasks: action.payload,
-      };
-      return state;
     case "add-task":
       const newTask = {
         id: Math.floor(Math.random() * 100),
@@ -17,7 +12,7 @@ function reducer(state, action) {
       const newListOfCategoriesAddedNewTask = state.listOfCategories.map(
         (cat) => {
           if (cat.id === action.payload.categoryId) {
-            cat = {...cat, tasks: [...cat.tasks, newTask]}
+            cat = { ...cat, tasks: [...cat.tasks, newTask] };
           }
           return cat;
         }
@@ -28,20 +23,37 @@ function reducer(state, action) {
       };
       return newStateAddedTask;
     case "update-done":
-      const newListOfCategories = state.listOfCategories.map((cat) => {
-        cat.tasks.map((task) => {
-          if (task.id == action.payload.id) {
+      const newListOfCategories = state.listOfCategories.map((category) => {
+        category.tasks.map((task) => {
+          if (task.id === action.payload.id) {
             task.done = action.payload.done;
           }
           return task;
         });
-        return cat;
+        return category;
       });
       const newStateModifiedCheckbox = {
         ...state,
         listOfCategories: newListOfCategories,
       };
       return newStateModifiedCheckbox;
+    case "remove-task":
+      const newListOfCategoriesWithoutDeletedTask = state.listOfCategories.map(
+        (category) => {
+          if (category.id === action.payload.categoryId) {
+            const newListOfTasks = category.tasks.filter(
+              (task) => task.id !== action.payload.id
+            );
+            category = { ...category, tasks: newListOfTasks };
+          }
+          return category;
+        }
+      );
+      const newStateWithoutDeletedTask = {
+        ...state,
+        listOfCategories: newListOfCategoriesWithoutDeletedTask,
+      };
+      return newStateWithoutDeletedTask;
   }
 }
 
