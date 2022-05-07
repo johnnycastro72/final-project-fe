@@ -54,6 +54,14 @@ function reducer(state, action) {
         listOfCategories: newListOfCategoriesWithoutDeletedTask,
       };
       return newStateWithoutDeletedTask;
+    case "remove-category":
+      const newListOfCategoriesWithoutDeletedCategory = state.listOfCategories.filter(
+        (category) => category.id !== action.payload.id);
+      const newStateWithoutDeletedCategory = {
+        ...state,
+        listOfCategories: newListOfCategoriesWithoutDeletedCategory,
+      };
+      return newStateWithoutDeletedCategory;
   }
 }
 

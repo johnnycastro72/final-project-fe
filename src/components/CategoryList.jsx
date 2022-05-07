@@ -23,15 +23,22 @@ const CategoryList = () => {
     })
   }
 
+  const onDeleteCategory = (category) => {
+    dispatch({
+      type: "remove-category",
+      payload: category
+    })
+  }
+
   console.log(state);
   return (
     <div>
-      {state.listOfCategories.map((cat) => {
+      {state.listOfCategories.map((actualCategory) => {
         return (
-          <Card key={cat.id}>
-            <Card.Header>{cat.title} <Button>Delete</Button></Card.Header>
+          <Card key={actualCategory.id}>
+            <Card.Header>{actualCategory.title} <Button variant="danger" size="sm" onClick={() => onDeleteCategory(actualCategory)}>Delete</Button></Card.Header>
             <Card.Body>
-              <TaskForm catId={cat.id} />
+              <TaskForm catId={actualCategory.id} />
               <Table striped bordered hover responsive>
                 <thead>
                   <tr>
@@ -43,22 +50,22 @@ const CategoryList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {cat.tasks.map((tas) => {
+                  {actualCategory.tasks.map((actualTask) => {
                     return (
-                      <tr key={tas.id}>
-                        <td style={tas.done?{textDecoration: 'line-through'}:{}}>{tas.id}</td>
-                        <td style={tas.done?{textDecoration: 'line-through'}:{}}>{tas.message}</td>
+                      <tr key={actualTask.id}>
+                        <td style={actualTask.done?{textDecoration: 'line-through'}:{}}>{actualTask.id}</td>
+                        <td style={actualTask.done?{textDecoration: 'line-through'}:{}}>{actualTask.message}</td>
                         <td>
                           <input
-                            onChange={(event) => onCheckbox(event, tas)}
+                            onChange={(event) => onCheckbox(event, actualTask)}
                             type="checkbox"
                           />
                         </td>
                         <td>
-                          <Button onClick={() => onDeleteTask(tas)}>Delete</Button>
+                          <Button variant="danger" size="sm" onClick={() => onDeleteTask(actualTask)}>Delete</Button>
                         </td>
                         <td>
-                          <Button>Edit</Button>
+                          {actualCategory.done?<Button size="sm">Edit</Button>:<Button size="sm" disabled>Edit</Button>}
                         </td>
                       </tr>
                     );

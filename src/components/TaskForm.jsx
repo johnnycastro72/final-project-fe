@@ -2,19 +2,19 @@ import React, { useContext, useRef, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Store } from "../stateManagement/StoreProvider";
 
-const TaskForm = ({catId}) => {
+const TaskForm = ({ catId }) => {
   const formRefTask = useRef(null);
 
   const onAdd = (event) => {
     event.preventDefault();
-    if(message) {
+    if (message) {
       dispatch({
         type: "add-task",
         payload: {
           message,
-          categoryId: catId
-        }
-      })
+          categoryId: catId,
+        },
+      });
       formRefTask.current.reset();
     }
   };
@@ -39,9 +39,11 @@ const TaskForm = ({catId}) => {
         ></Form.Control>
         <Form.Text className="text-muted">Please enter a task</Form.Text>
       </Form.Group>
-      <Button onClick={onAdd} variant="primary" type="submit">
-        Create
-      </Button>
+      <div className="d-grid gap-2">
+        <Button onClick={onAdd} variant="primary" size="lg" type="submit">
+          Create
+        </Button>
+      </div>{" "}
     </Form>
   );
 };
