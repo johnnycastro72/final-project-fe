@@ -17,14 +17,11 @@ function reducer(state, action) {
       const newListOfCategoriesAddedNewTask = state.listOfCategories.map(
         (cat) => {
           if (cat.id === action.payload.categoryId) {
-            console.log(cat)
-            console.log(action)
-            //cat.tasks = [...cat.tasks, newTask];
+            cat = {...cat, tasks: [...cat.tasks, newTask]}
           }
           return cat;
         }
       );
-      console.log(newListOfCategoriesAddedNewTask);
       const newStateAddedTask = {
         ...state,
         listOfCategories: newListOfCategoriesAddedNewTask,
