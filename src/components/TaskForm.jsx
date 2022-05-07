@@ -6,7 +6,7 @@ const TaskForm = () => {
 
   return (
     <form ref={formTask}>
-      <input type="text" name="message" placeholder="To-Do list" />
+      <input type="text" name="message" placeholder="Actions pending to be done" />
       <button>Create</button>
     </form>
   );

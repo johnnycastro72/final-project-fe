@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 import CategoryForm from "./components/CategoryForm";
 import CategoryList from "./components/CategoryList";
