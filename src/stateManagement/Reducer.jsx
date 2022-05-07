@@ -6,8 +6,32 @@ function reducer(state, action) {
         tasks: action.payload,
       };
       return state;
+    case "add-task":
+      const newTask = {
+        id: Math.floor(Math.random() * 100),
+        message: action.payload.message,
+        categoryId: action.payload.categoryId,
+        done: false,
+      };
+
+      const newListOfCategoriesAddedNewTask = state.listOfCategories.map(
+        (cat) => {
+          if (cat.id === action.payload.categoryId) {
+            console.log(cat)
+            console.log(action)
+            //cat.tasks = [...cat.tasks, newTask];
+          }
+          return cat;
+        }
+      );
+      console.log(newListOfCategoriesAddedNewTask);
+      const newStateAddedTask = {
+        ...state,
+        listOfCategories: newListOfCategoriesAddedNewTask,
+      };
+      return newStateAddedTask;
     case "update-done":
-      const newListofCategories = state.listOfCategories.map((cat) => {
+      const newListOfCategories = state.listOfCategories.map((cat) => {
         cat.tasks.map((task) => {
           if (task.id == action.payload.id) {
             task.done = action.payload.done;
@@ -16,7 +40,10 @@ function reducer(state, action) {
         });
         return cat;
       });
-      const newStateModifiedCheckbox = {...state, listOfCategories: newListofCategories}
+      const newStateModifiedCheckbox = {
+        ...state,
+        listOfCategories: newListOfCategories,
+      };
       return newStateModifiedCheckbox;
   }
 }

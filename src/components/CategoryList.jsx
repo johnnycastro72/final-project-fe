@@ -21,9 +21,9 @@ const CategoryList = () => {
       {state.listOfCategories.map((cat) => {
         return (
           <Card key={cat.id}>
-            <Card.Header>{cat.title}</Card.Header>
+            <Card.Header>{cat.title} <Button>Delete</Button></Card.Header>
             <Card.Body>
-              <TaskForm />
+              <TaskForm catId={cat.id} />
               <Table striped bordered hover responsive>
                 <thead>
                   <tr>

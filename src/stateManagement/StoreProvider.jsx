@@ -14,26 +14,26 @@ const initialState = {
   },
   listOfCategories: [
     {
-      id: "1",
+      id: 1,
       title: "First Category",
       tasks: [
         {
-          id: "2",
+          id: 2,
           message: "First task on first category",
           done: false,
-          categoryId: "1",
+          categoryId: 1,
         },
       ],
     },
     {
-      id: "3",
+      id: 3,
       title: "Second Category",
       tasks: [
         {
-          id: "4",
+          id: 4,
           message: "First task on second category",
           done: false,
-          categoryId: "2",
+          categoryId: 3,
         },
       ],
     },
