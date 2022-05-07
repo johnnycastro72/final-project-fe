@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Card, Table, Button, Modal } from "react-bootstrap";
+import { Card, Table, Button, Modal, Form } from "react-bootstrap";
 import { Store } from "../stateManagement/StoreProvider";
 import TaskForm from "./TaskForm";
 
@@ -33,25 +33,32 @@ const CategoryList = () => {
     });
   };
 
-  const closeModal = (event, updatedMessage) => {
-    setModalClose(true)
-    setModalOpen(false)
-    dispatch({
-      type: "update-message",
-      payload: {
-        event,
-        updatedMessage,
-        editedTaskId
-      }
-    })
-  }
+  const closeModal = (event, updatedMessage, saveChanges) => {
+    setModalClose(true);
+    setModalOpen(false);
+    if (updatedMessage && saveChanges) {
+      setEditedMessage(updatedMessage);
+      dispatch({
+        type: "update-message",
+        payload: {
+          event,
+          updatedMessage,
+          editedTaskId,
+        },
+      });
+    }
+  };
+
+  const onChangeMessage = (event) => {
+    setEditedMessage(event.target.value);
+  };
 
   const openModal = (event, task) => {
-    setModalOpen(true)
-    setModalClose(false)
-    setEditedMessage(task.message)
-    setEditedTaskId(task.id)
-  }
+    setModalOpen(true);
+    setModalClose(false);
+    setEditedMessage(task.message);
+    setEditedTaskId(task.id);
+  };
 
   return (
     <div>
@@ -120,7 +127,12 @@ const CategoryList = () => {
                           </Button>
                         </td>
                         <td style={{ textAlign: "center" }}>
-                          <Button key={actualTask.id} size="sm" onClick={(event) => openModal(event, actualTask)} disabled={actualTask.done}>
+                          <Button
+                            key={actualTask.id}
+                            size="sm"
+                            onClick={(event) => openModal(event, actualTask)}
+                            disabled={actualTask.done}
+                          >
                             Edit
                           </Button>
                         </td>
@@ -135,12 +147,35 @@ const CategoryList = () => {
       })}
       <Modal show={modalOpen} onHide={modalClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Edit</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{editedMessage}</Modal.Body>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Task message</Form.Label>
+              <Form.Control
+                onChange={onChangeMessage}
+                type="text"
+                name="editedMessage"
+                defaultValue={editedMessage}
+                placeholder="Actions pendient to be done"
+                autoFocus
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={(event) => closeModal(event, editedMessage)}>
+          <Button
+            variant="secondary"
+            onClick={(event) => closeModal(event, editedMessage, 0)}
+          >
             Close
+          </Button>
+          <Button
+            variant="primary"
+            onClick={(event) => closeModal(event, editedMessage, 1)}
+          >
+            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

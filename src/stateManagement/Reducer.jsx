@@ -5,11 +5,17 @@ function reducer(state, action) {
       const newCategory = {
         id: Math.floor(Math.random() * 100),
         title: action.payload.title,
-        tasks: []
-      }
-      const newListOfCategoriesAddedCategory = [...state.listOfCategories, newCategory]
-      const newStateAddedCategory = {...state, listOfCategories: newListOfCategoriesAddedCategory}
-      return newStateAddedCategory
+        tasks: [],
+      };
+      const newListOfCategoriesAddedCategory = [
+        ...state.listOfCategories,
+        newCategory,
+      ];
+      const newStateAddedCategory = {
+        ...state,
+        listOfCategories: newListOfCategoriesAddedCategory,
+      };
+      return newStateAddedCategory;
     case "add-task":
       const newTask = {
         id: Math.floor(Math.random() * 100),
@@ -19,11 +25,11 @@ function reducer(state, action) {
       };
 
       const newListOfCategoriesAddedNewTask = state.listOfCategories.map(
-        (cat) => {
-          if (cat.id === action.payload.categoryId) {
-            cat = { ...cat, tasks: [...cat.tasks, newTask] };
+        (category) => {
+          if (category.id === action.payload.categoryId) {
+            category = { ...category, tasks: [...category.tasks, newTask] };
           }
-          return cat;
+          return category;
         }
       );
       const newStateAddedTask = {
@@ -47,7 +53,22 @@ function reducer(state, action) {
       };
       return newStateModifiedCheckbox;
     case "update-message":
-      console.log(action.payload)
+      const newListOfCategoriesUpdatedMessage = state.listOfCategories.map(
+        (category) => {
+          category.tasks.map((task) => {
+            if (task.id === action.payload.editedTaskId) {
+              task.message = action.payload.updatedMessage;
+            }
+            return task;
+          });
+          return category;
+        }
+      );
+      const newStateUpdatedMessage = {
+        ...state,
+        listOfCategories: newListOfCategoriesUpdatedMessage,
+      };
+      return newStateUpdatedMessage;
     case "remove-task":
       const newListOfCategoriesWithoutDeletedTask = state.listOfCategories.map(
         (category) => {
@@ -66,8 +87,10 @@ function reducer(state, action) {
       };
       return newStateWithoutDeletedTask;
     case "remove-category":
-      const newListOfCategoriesWithoutDeletedCategory = state.listOfCategories.filter(
-        (category) => category.id !== action.payload.id);
+      const newListOfCategoriesWithoutDeletedCategory =
+        state.listOfCategories.filter(
+          (category) => category.id !== action.payload.id
+        );
       const newStateWithoutDeletedCategory = {
         ...state,
         listOfCategories: newListOfCategoriesWithoutDeletedCategory,
