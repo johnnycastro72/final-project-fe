@@ -12,7 +12,8 @@ const initialState = {
     id: "",
     title: ""
   },
-  listOfCategories: [
+  listOfCategories: []
+/*   [
     {
       id: 1,
       title: "First Category",
@@ -38,7 +39,7 @@ const initialState = {
       ],
     },
   ],
-};
+ */};
 
 const Store = createContext(initialState);
 

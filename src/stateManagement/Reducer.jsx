@@ -1,6 +1,8 @@
 function reducer(state, action) {
   switch (action.type) {
     case "get-categories":
+      const newStateGetAllCategories = {...state, listOfCategories: action.payload };
+      return newStateGetAllCategories;
     case "add-category":
       const newCategory = {
         id: Math.floor(Math.random() * 100),

@@ -1,10 +1,29 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card, Table, Button, Modal, Form, Container } from "react-bootstrap";
 import { Store } from "../stateManagement/StoreProvider";
 import TaskForm from "./TaskForm";
 
 const CategoryList = () => {
   const { state, dispatch } = useContext(Store);
+
+  useEffect(() => {
+    let listOfCategory = fetchAllCategories().then(
+      categories => {
+        let action = {
+          type: "get-categories",
+          payload: categories
+        }
+
+        dispatch(action)
+      }
+    )
+  }, []);
+
+  const fetchAllCategories = async () => {
+    let response = await fetch(`http://localhost:8081/api/v1`);
+    let data = await response.json();
+    return data;
+  }
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalClose, setModalClose] = useState(true);
