@@ -8,7 +8,6 @@ const CategoryList = () => {
 
   const onCheckbox = (event, task) => {
     const checked = event.currentTarget.checked;
-    console.log(checked);
     dispatch({
       type: "update-done",
       payload: {...task, 
@@ -30,23 +29,23 @@ const CategoryList = () => {
     })
   }
 
-  console.log(state);
   return (
     <div>
       {state.listOfCategories.map((actualCategory) => {
         return (
           <Card key={actualCategory.id}>
-            <Card.Header>{actualCategory.title} <Button variant="danger" size="sm" onClick={() => onDeleteCategory(actualCategory)}>Delete</Button></Card.Header>
+            <Card.Header>
+              {actualCategory.title}
+              <Button variant="danger" size="sm" onClick={() => onDeleteCategory(actualCategory)}>Delete</Button></Card.Header>
             <Card.Body>
               <TaskForm catId={actualCategory.id} />
-              <Table striped bordered hover responsive>
+              <Table size="sm" striped bordered hover responsive>
                 <thead>
                   <tr>
                     <th>Id</th>
                     <th>Task</th>
                     <th>Done</th>
-                    <th></th>
-                    <th></th>
+                    <th colSpan={2}></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -65,7 +64,7 @@ const CategoryList = () => {
                           <Button variant="danger" size="sm" onClick={() => onDeleteTask(actualTask)}>Delete</Button>
                         </td>
                         <td>
-                          {actualCategory.done?<Button size="sm">Edit</Button>:<Button size="sm" disabled>Edit</Button>}
+                          <Button default size="sm" disabled={actualTask.done}>Edit</Button>
                         </td>
                       </tr>
                     );
@@ -76,7 +75,6 @@ const CategoryList = () => {
           </Card>
         );
       })}
-      <h1></h1>
     </div>
   );
 };

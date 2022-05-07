@@ -1,6 +1,15 @@
 function reducer(state, action) {
   switch (action.type) {
     case "get-categories":
+    case "add-category":
+      const newCategory = {
+        id: Math.floor(Math.random() * 100),
+        title: action.payload.title,
+        tasks: []
+      }
+      const newListOfCategoriesAddedCategory = [...state.listOfCategories, newCategory]
+      const newStateAddedCategory = {...state, listOfCategories: newListOfCategoriesAddedCategory}
+      return newStateAddedCategory
     case "add-task":
       const newTask = {
         id: Math.floor(Math.random() * 100),

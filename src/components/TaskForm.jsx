@@ -5,7 +5,7 @@ import { Store } from "../stateManagement/StoreProvider";
 const TaskForm = ({ catId }) => {
   const formRefTask = useRef(null);
 
-  const onAdd = (event) => {
+  const onAddTask = (event) => {
     event.preventDefault();
     if (message) {
       dispatch({
@@ -40,10 +40,10 @@ const TaskForm = ({ catId }) => {
         <Form.Text className="text-muted">Please enter a task</Form.Text>
       </Form.Group>
       <div className="d-grid gap-2">
-        <Button onClick={onAdd} variant="primary" size="lg" type="submit">
-          Create
+        <Button onClick={onAddTask} variant="primary" size="lg" type="submit">
+          Create new task
         </Button>
-      </div>{" "}
+      </div>
     </Form>
   );
 };
