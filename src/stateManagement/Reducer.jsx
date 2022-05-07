@@ -46,6 +46,8 @@ function reducer(state, action) {
         listOfCategories: newListOfCategories,
       };
       return newStateModifiedCheckbox;
+    case "update-message":
+      console.log(action.payload)
     case "remove-task":
       const newListOfCategoriesWithoutDeletedTask = state.listOfCategories.map(
         (category) => {
