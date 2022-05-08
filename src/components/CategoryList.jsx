@@ -47,14 +47,31 @@ const CategoryList = () => {
     });
   };
 
-  const onDeleteTask = (task) => {
-    dispatch({
-      type: "remove-task",
-      payload: task,
-    });
+  const onDeleteTask = async (task) => {
+    let response = await fetch(`http://localhost:8081/api/v1/delete/task`, {
+      method: 'DELETE',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(task)
+    })
+
+    if (response.status === 200) {
+      dispatch({
+        type: "remove-task",
+        payload: task,
+      });
+    }
   };
 
-  const onDeleteCategory = (category) => {
+  const onDeleteCategory = async (category) => {
+    let response = await fetch(`http://localhost:8081/api/v1/delete/category`, {
+      method: 'DELETE',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(category)
+    })
     dispatch({
       type: "remove-category",
       payload: category,
