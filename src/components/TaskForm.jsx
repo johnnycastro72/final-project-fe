@@ -2,6 +2,15 @@ import React, { useContext, useRef, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Store } from "../stateManagement/StoreProvider";
 
+/**
+ * This component returns the task form of our application.
+ * <p>
+ *  We can create new task with this component.
+ * 
+ * @author Jhonny Castro <johnny.castro@misena.edu.co>
+ * @version 1.0.0 7/05/2022
+ * @since 1.0.0
+ */
 const TaskForm = ({ catId }) => {
   const formRefTask = useRef(null);
 

@@ -3,16 +3,23 @@ import {
   Card,
   CardGroup,
   Row,
-  Col,
   Table,
   Button,
   Modal,
   Form,
-  Container,
 } from "react-bootstrap";
 import { Store } from "../stateManagement/StoreProvider";
 import TaskForm from "./TaskForm";
 
+/**
+ * This component manages the task categories, allows you to delete them and also 
+ * manages the tasks in each category (add, edit, delete).
+ * <p>
+ * 
+ * @author Jhonny Castro <johnny.castro@misena.edu.co>
+ * @version 1.0.0 7/05/2022
+ * @since 1.0.0
+ */
 const CategoryList = () => {
   const { state, dispatch } = useContext(Store);
 
@@ -212,7 +219,7 @@ const CategoryList = () => {
                           </td>
                           <td style={{ textAlign: "center" }}>
                             <Button
-                              variant = "outline-primary"
+                              variant="outline-primary"
                               key={actualTask.id}
                               size="sm"
                               onClick={(event) => openModal(event, actualTask)}
@@ -231,7 +238,16 @@ const CategoryList = () => {
           );
         })}
         <Modal show={modalOpen} onHide={modalClose}>
-          <Modal.Header closeButton style={{height:"5em", padding: "1em", color:"#d8dbf6", backgroundColor: "blue", textAlign: "center"}}>
+          <Modal.Header
+            closeButton
+            style={{
+              height: "5em",
+              padding: "1em",
+              color: "#d8dbf6",
+              backgroundColor: "blue",
+              textAlign: "center",
+            }}
+          >
             <Modal.Title>Edit</Modal.Title>
           </Modal.Header>
           <Modal.Body>

@@ -2,6 +2,15 @@ import React, { useContext, useRef, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Store } from "../stateManagement/StoreProvider";
 
+/**
+ * This component returns the category form of our application.
+ * <p>
+ * We can add new tasks categories with this component.
+ * 
+ * @author Jhonny Castro <johnny.castro@misena.edu.co>
+ * @version 1.0.0 7/05/2022
+ * @since 1.0.0
+ */
 const CategoryForm = () => {
   const formRefCategory = useRef(null);
 

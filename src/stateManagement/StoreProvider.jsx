@@ -1,18 +1,27 @@
 import React, { createContext, useReducer } from "react";
 import reducer from "./Reducer";
 
+/**
+ * Context API allows us to share state with other components.
+ * <p>
+ * The Store it's created with a initial state and the reducer function defined.
+ * 
+ * @author Jhonny Castro <johnny.castro@misena.edu.co>
+ * @version 1.0.0 7/05/2022
+ * @since 1.0.0
+ */
 const initialState = {
   task: {
     id: "",
     message: "",
     done: false,
-    categoryId: ""
+    categoryId: "",
   },
   category: {
     id: "",
-    title: ""
+    title: "",
   },
-  listOfCategories: []
+  listOfCategories: [],
 };
 
 const Store = createContext(initialState);

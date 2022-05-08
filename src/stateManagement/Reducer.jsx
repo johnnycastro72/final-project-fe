@@ -1,7 +1,22 @@
+/**
+ * Depending on the action object, the reducer function must update 
+ * the state in an immutable manner, and return the new state.
+ *
+ * @param {*} state   actual state
+ * @param {*} action  include the type of scenary and payload
+ * @returns new state
+ *
+ * @author Jhonny Castro <johnny.castro@misena.edu.co>
+ * @version 1.0.0 7/05/2022
+ * @since 1.0.0
+ */
 function reducer(state, action) {
   switch (action.type) {
     case "get-categories":
-      const newStateGetAllCategories = {...state, listOfCategories: action.payload };
+      const newStateGetAllCategories = {
+        ...state,
+        listOfCategories: action.payload,
+      };
       return newStateGetAllCategories;
     case "add-category":
       const newCategory = action.payload;
@@ -31,19 +46,21 @@ function reducer(state, action) {
       return newStateAddedTask;
     case "update-done":
       const newListOfUpdatedTask = action.payload.tasks;
-      const newListOfCategoriesUpdatedDone = state.listOfCategories.map((category) => {
-        if (category.id === action.payload.id) {
-          category = { ...category, tasks: newListOfUpdatedTask };
+      const newListOfCategoriesUpdatedDone = state.listOfCategories.map(
+        (category) => {
+          if (category.id === action.payload.id) {
+            category = { ...category, tasks: newListOfUpdatedTask };
+          }
+          return category;
         }
-        return category;
-      });
+      );
       const newStateModifiedCheckbox = {
         ...state,
         listOfCategories: newListOfCategoriesUpdatedDone,
       };
       return newStateModifiedCheckbox;
     case "update-message":
-      const {tasks} = action.payload;
+      const { tasks } = action.payload;
       const newListOfCategoriesUpdatedMessage = state.listOfCategories.map(
         (category) => {
           if (category.id === action.payload.id) {
