@@ -27,11 +27,23 @@ const CategoryList = () => {
   const [editedMessage, setEditedMessage] = useState("");
   const [editedTaskId, setEditedTaskId] = useState(0);
 
-  const onCheckbox = (event, task) => {
+  const onCheckbox = async (event, task) => {
     const checked = event.currentTarget.checked;
+    const newTaskUpdatedDone = { ...task, done: checked };
+    let taskUpdatedDonePromise = await fetch(
+      `http://localhost:8081/api/v1/update/task`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(newTaskUpdatedDone),
+      }
+    );
+    let taskUpdatedDone = await taskUpdatedDonePromise.json();
     dispatch({
       type: "update-done",
-      payload: { ...task, done: checked },
+      payload: taskUpdatedDone,
     });
   };
 
@@ -49,18 +61,41 @@ const CategoryList = () => {
     });
   };
 
-  const closeModal = (event, updatedMessage, saveChanges) => {
+  const closeModal = async (event, updatedMessage, saveChanges) => {
     setModalClose(true);
     setModalOpen(false);
     if (updatedMessage && saveChanges) {
       setEditedMessage(updatedMessage);
+      const categoriesUpdatedTask = state.listOfCategories.map((category) => {
+        const { tasks } = category;
+        const categoryWithUpdatedTask = {
+          ...category,
+          tasks: tasks.filter((task) => task.id === editedTaskId),
+        };
+        return categoryWithUpdatedTask;
+      });
+
+      const categoryUpdatedTask = categoriesUpdatedTask.filter(
+        (category) => category.tasks.length > 0
+      );
+      const [cat] = categoryUpdatedTask
+      const {tasks} = cat
+      const [oldUpdatedTask] = tasks
+      const newUpdatedTask = {...oldUpdatedTask, message: updatedMessage}
+      let taskUpdatedMessagePromise = await fetch(
+        `http://localhost:8081/api/v1/update/task`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(newUpdatedTask),
+        }
+      );
+      let taskUpdatedMessage = await taskUpdatedMessagePromise.json();
       dispatch({
         type: "update-message",
-        payload: {
-          event,
-          updatedMessage,
-          editedTaskId,
-        },
+        payload: taskUpdatedMessage,
       });
     }
   };
@@ -131,6 +166,7 @@ const CategoryList = () => {
                           <input
                             onChange={(event) => onCheckbox(event, actualTask)}
                             type="checkbox"
+                            checked={actualTask.done}
                           />
                         </td>
                         <td style={{ textAlign: "center" }}>

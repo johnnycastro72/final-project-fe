@@ -5,18 +5,34 @@ import { Store } from "../stateManagement/StoreProvider";
 const TaskForm = ({ catId }) => {
   const formRefTask = useRef(null);
 
-  const onAddTask = (event) => {
+  const onAddTask = async (event) => {
     event.preventDefault();
     if (message) {
+      let taskFromForm = {
+        message,
+        categoryId: catId,
+        done: false,
+      };
+
+      let taskSavedPromise = await fetch(
+        `http://localhost:8081/api/v1/save/task`,
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(taskFromForm),
+        }
+      );
+
+      let taskSaved = await taskSavedPromise.json();
+
       dispatch({
         type: "add-task",
-        payload: {
-          message,
-          categoryId: catId,
-        },
+        payload: taskSaved,
       });
       formRefTask.current.reset();
-      setMessage("")
+      setMessage("");
     }
   };
 

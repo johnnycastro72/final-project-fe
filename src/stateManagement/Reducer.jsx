@@ -15,17 +15,11 @@ function reducer(state, action) {
       };
       return newStateAddedCategory;
     case "add-task":
-      const newTask = {
-        id: Math.floor(Math.random() * 100),
-        message: action.payload.message,
-        categoryId: action.payload.categoryId,
-        done: false,
-      };
-
+      const newListOfTask = action.payload.tasks;
       const newListOfCategoriesAddedNewTask = state.listOfCategories.map(
         (category) => {
-          if (category.id === action.payload.categoryId) {
-            category = { ...category, tasks: [...category.tasks, newTask] };
+          if (category.id === action.payload.id) {
+            category = { ...category, tasks: newListOfTask };
           }
           return category;
         }
@@ -36,29 +30,25 @@ function reducer(state, action) {
       };
       return newStateAddedTask;
     case "update-done":
-      const newListOfCategories = state.listOfCategories.map((category) => {
-        category.tasks.map((task) => {
-          if (task.id === action.payload.id) {
-            task.done = action.payload.done;
-          }
-          return task;
-        });
+      const newListOfUpdatedTask = action.payload.tasks;
+      const newListOfCategoriesUpdatedDone = state.listOfCategories.map((category) => {
+        if (category.id === action.payload.id) {
+          category = { ...category, tasks: newListOfUpdatedTask };
+        }
         return category;
       });
       const newStateModifiedCheckbox = {
         ...state,
-        listOfCategories: newListOfCategories,
+        listOfCategories: newListOfCategoriesUpdatedDone,
       };
       return newStateModifiedCheckbox;
     case "update-message":
+      const {tasks} = action.payload;
       const newListOfCategoriesUpdatedMessage = state.listOfCategories.map(
         (category) => {
-          category.tasks.map((task) => {
-            if (task.id === action.payload.editedTaskId) {
-              task.message = action.payload.updatedMessage;
-            }
-            return task;
-          });
+          if (category.id === action.payload.id) {
+            category = { ...category, tasks: tasks };
+          }
           return category;
         }
       );
